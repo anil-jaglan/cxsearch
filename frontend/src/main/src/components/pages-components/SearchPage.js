@@ -11,7 +11,7 @@ import FacetCard from '../featured-components/FacetCard';
 export default function SearchPage({ query }) {
     const source = axios.CancelToken.source()
     const [result, setResult] = useState([])
-    const [facetResult, setFacetResult] = useState(null)
+    const [facetResult, setFacetResult] = useState([])
     const [formatedQuery, setformatedQuery] = useState('')
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export default function SearchPage({ query }) {
             .then((data) => {
                 setResult(data.data.content)
                 console.log(data.data)
-                setFacetResult(data.data.facetResultPages)
+                setFacetResult([data.data.facetResultPages, data.data.facetFields])
             })
             .catch((error) => console.log(error))
 
@@ -37,7 +37,9 @@ export default function SearchPage({ query }) {
     return (
         <Grid container spacing={0} style={{ marginTop: '20px' }}>
             <Grid item xs={12} sm={3}>
-                {facetResult ? facetResult.map(page => <FacetCard content={page.content} />) : null}
+                <div style={{'padding' : '0px 10px'}}>
+                {facetResult.length >0 ? facetResult[0].map((page, i) => <FacetCard title={facetResult[1][i].name} content={page.content} />) : null}
+                </div>
             </Grid>
             <Grid item xs={12} sm={9}>
                 <Grid container spacing={3} style={{ width: '100%' }}>
