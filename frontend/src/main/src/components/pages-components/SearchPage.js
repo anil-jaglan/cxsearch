@@ -6,17 +6,18 @@ import Grid from '@material-ui/core/Grid';
 import getRequest from '../../utilities/getRequest'
 
 import ProductCard from '../featured-components/ProductCard'
-import FacetCard from '../featured-components/FacetCard';
+import FacetAccordion from '../featured-components/FacetAccordion';
 
 export default function SearchPage({ query }) {
     const source = axios.CancelToken.source()
     const [result, setResult] = useState([])
     const [facetResult, setFacetResult] = useState([])
+    const [facetTitle] = useState(['Price', 'Category', 'Brand'])
     const [formatedQuery, setformatedQuery] = useState('')
 
     useEffect(() => {
         const formatedQuery = query.toLowerCase().split().join('+')
-        setformatedQuery(formatedQuery)
+        setformatedQuery(formatedQuery === '' ? 'printer' : formatedQuery)
     }, [query])
 
 
@@ -25,7 +26,6 @@ export default function SearchPage({ query }) {
         request()
             .then((data) => {
                 setResult(data.data.content)
-                console.log(data.data)
                 setFacetResult([data.data.facetResultPages, data.data.facetFields])
             })
             .catch((error) => console.log(error))
@@ -38,7 +38,7 @@ export default function SearchPage({ query }) {
         <Grid container spacing={0} style={{ marginTop: '20px' }}>
             <Grid item xs={12} sm={3}>
                 <div style={{'padding' : '0px 10px'}}>
-                {facetResult.length >0 ? facetResult[0].map((page, i) => <FacetCard title={facetResult[1][i].name} content={page.content} />) : null}
+                {facetResult.length >0 ? facetResult[0].map((page, i) => <FacetAccordion key={i} expanded={true} title={facetTitle[i]} content={page.content} />) : null}
                 </div>
             </Grid>
             <Grid item xs={12} sm={9}>

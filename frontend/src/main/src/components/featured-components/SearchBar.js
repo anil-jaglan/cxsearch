@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Icon from '../icons'
+import Button from '@material-ui/core/Button';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -19,7 +20,10 @@ export default function SearchBar({ query, setQuery, resetQuery }) {
     const handleSelect = (value) => {
         setHint(false)
         setTerm(value)
-        setQuery(value)
+        setQuery(value);
+    }
+    const onSearchClick = (e) => {
+        setQuery(term)
     }
 
     return (
@@ -48,6 +52,7 @@ export default function SearchBar({ query, setQuery, resetQuery }) {
                             onChange={e => handleChange(e.target.value)} />
                         {(hint || focused) ? <SearchAutoComplete term={term} onSelect={handleSelect} /> : null}
                     </div>
+                    <Button variant="contained" color="secondary" onClick={onSearchClick} style={{marginLeft: '10px'}}>Search</Button>
                 </div>
             </Grid>
         </Grid>

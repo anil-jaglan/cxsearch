@@ -42,7 +42,7 @@ export default function HomePage(props) {
                 <Logo />
             </Sidebar> */}
             <div className={classes.root}>
-                <Grid container direction="row" justify="center" style={{ marginTop: '12px', width: 'calc(100% + 12px)', padding: '0 6px' }}>
+                <Grid container direction="row" justify="center" style={{ marginTop: '12px', width: 'calc(100% + 0px)', padding: '0 6px' }}>
                     <Grid item xs={12}>
                         <Headerbar>
                             <SearchBar query={query} setQuery={setQuery} resetQuery={resetQuery} />

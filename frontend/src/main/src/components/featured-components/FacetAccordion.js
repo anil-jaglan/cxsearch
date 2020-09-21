@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Typography } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import FacetCheckbox from '../core-components/FacetCheckbox'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,26 +22,31 @@ const useStyles = makeStyles((theme) => ({
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
+        textTransform: "capitalize",
+        fontWeight: 'bold',
     },
 }));
 
 
-export default function FacetCard({ title, content }) {
+export default function FacetAccordion({ title, content, expanded }) {
     const classes = useStyles();
     const [result, setResult] = useState([])
+    const [expand, setExpand] = useState(true)
+
 
     useEffect(() => {
         setResult(content)
-    }, [content])
+        setExpand(expanded)
+    }, [content, expanded])
 
     const handleChange = (e) => {
-
+        setExpand(!expand);
     }
 
     return (
         <Grid item>
             <div className={classes.root}>
-                <Accordion>
+                <Accordion expanded={expand} onChange={handleChange}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -52,23 +55,16 @@ export default function FacetCard({ title, content }) {
                         <Typography className={classes.heading}>{title}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <FormControl component="fieldset" className={classes.formControl}>
-                            <FormGroup>
-                                {
-                                    content
-                                        ?
-                                        content.map(c =>
-                                            <FormControlLabel
-                                                control={<Checkbox onChange={handleChange} name={c.value} />}
-                                                label={c.value}
-                                                color="primary"
-                                                style={{ textTransform: "capitalize" }}
-                                            />)
-                                        : null
-                                }
-
-                            </FormGroup>
-                        </FormControl>
+                        <FormGroup>
+                            {
+                                result
+                                    ?
+                                    result.map(c =>
+                                        <FacetCheckbox field={c} checked={false} />
+                                    )
+                                    : null
+                            }
+                        </FormGroup>
                     </AccordionDetails>
                 </Accordion>
 
