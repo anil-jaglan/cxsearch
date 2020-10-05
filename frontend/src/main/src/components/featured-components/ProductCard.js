@@ -43,7 +43,7 @@ export default function ProductCard({ product }) {
                             {product.sectionTitle}
                         </div>
                         <div className="ArticleTitle">
-                            {product.name}
+                            {product.name} - {product.code}
                         </div>
                         <div className="ArticleDesc">
                             {product.desc}

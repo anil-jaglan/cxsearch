@@ -7,10 +7,8 @@ import Headerbar from '../featured-components/Headerbar'
 import PageContent from '../featured-components/PageContent'
 import SearchBar from '../featured-components/SearchBar'
 
-import Sidebar from '../sidebar-components/Sidebar.js'
-import Logo from '../sidebar-components/Logo.js'
-
 import { MessageContext } from '../../utilities/context'
+import AutoCompoleteBar from '../featured-components/AutoCompleteBar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,7 +43,8 @@ export default function HomePage(props) {
                 <Grid container direction="row" justify="center" style={{ marginTop: '12px', width: 'calc(100% + 0px)', padding: '0 6px' }}>
                     <Grid item xs={12}>
                         <Headerbar>
-                            <SearchBar query={query} setQuery={setQuery} resetQuery={resetQuery} />
+                            {/* <SearchBar query={query} setQuery={setQuery} resetQuery={resetQuery} /> */}
+                            <AutoCompoleteBar setQuery={setQuery} resetQuery={resetQuery} />
                         </Headerbar>
                     </Grid>
                     <Grid item xs={12}>

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FacetCheckbox({ field, checked }) {
     const classes = useStyles();
 
-    const [check, setCheck] = useState(false);
+    const [check, setCheck] = React.useState(false);
 
     useEffect(() => {
         setCheck(checked)

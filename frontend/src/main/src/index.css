@@ -767,7 +767,10 @@ body{
     color: #121212;
     margin-left: 15px;
     border: 1px solid rgba(0,0,0,.1);
-    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+    /*box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);*/
+}
+.SearchBar .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
+    padding: 2px 9px;
 }
 
 .SearchInput{
@@ -1121,10 +1124,18 @@ body{
     color: #fff;
     text-decoration: none;
 }
-
+.ArticleCat {
+    font-size: 0.700rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    opacity: 0.7;
+    text-transform: uppercase;
+}
 .ArticleTitle{
     margin-top: 2px;
-    font-size: 0.8rem;    
+    font-size: 0.800rem;    
     font-weight: 600;
     line-height: 1.6;
     letter-spacing: 0.0075em;
@@ -1136,20 +1147,11 @@ body{
 .ArticleDesc {
     overflow-wrap: break-word;
     word-break: break-word;
-    font-size: 14px;
+    font-size: 0.870rem;
     margin-top: 15px;   
     height: 35px;
     overflow: hidden;    
     text-overflow: ellipsis;
-}
-.ArticleCat {
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1;
-    margin-top: 10px;
-    margin-bottom: 8px;
-    opacity: 0.7;
-    text-transform: uppercase;
 }
 .ArticlePrice {    
     font-weight: bold;

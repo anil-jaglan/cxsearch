@@ -10,6 +10,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import FacetCheckbox from '../core-components/FacetCheckbox'
+import CustomizedSlider from '../core-components/Slider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,19 +53,24 @@ export default function FacetAccordion({ title, content, expanded }) {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography className={classes.heading}>{title}</Typography>
+                    <Typography className={classes.heading}>{title}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
+                        {
+                            title === 'Price' ? 
+                            <CustomizedSlider data={result} />
+                            :
                         <FormGroup>
                             {
                                 result
                                     ?
                                     result.map(c =>
-                                        <FacetCheckbox field={c} checked={false} />
+                                        <FacetCheckbox key={c.value} field={c} checked={false} />
                                     )
                                     : null
                             }
                         </FormGroup>
+                        }
                     </AccordionDetails>
                 </Accordion>
 

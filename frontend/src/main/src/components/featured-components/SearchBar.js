@@ -22,8 +22,8 @@ export default function SearchBar({ query, setQuery, resetQuery }) {
         setTerm(value)
         setQuery(value);
     }
-    const onSearchClick = (e) => {
-        setQuery(term)
+    const onSearchClick = (value) => {
+        setQuery(value)
     }
 
     return (
@@ -52,7 +52,7 @@ export default function SearchBar({ query, setQuery, resetQuery }) {
                             onChange={e => handleChange(e.target.value)} />
                         {(hint || focused) ? <SearchAutoComplete term={term} onSelect={handleSelect} /> : null}
                     </div>
-                    <Button variant="contained" color="secondary" onClick={onSearchClick} style={{marginLeft: '10px'}}>Search</Button>
+                    <Button variant="contained" color="secondary" onClick={() => onSearchClick(term)} style={{ marginLeft: '10px' }}>Search</Button>
                 </div>
             </Grid>
         </Grid>

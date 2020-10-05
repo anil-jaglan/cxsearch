@@ -7,15 +7,15 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>com.app</groupId>
-        <artifactId>ecommercy</artifactId>
+        <groupId>com.app.cxsearch</groupId>
+        <artifactId>cxsearch</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>backend</artifactId>
     <name>backend</name>
 
     <modules>
-        <module>product-search-service</module>
+        <module>cxsearch-service</module>
     </modules>
 
     <properties>

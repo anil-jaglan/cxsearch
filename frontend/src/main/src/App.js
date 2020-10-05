@@ -1,24 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Axios from 'axios';
 
-import Sidebar from './components/sidebar-components/Sidebar.js'
-import Logo from './components/sidebar-components/Logo.js'
-import NavList from './components/sidebar-components/NavList.js'
-import NavItem from './components/sidebar-components/NavItem.js'
-import PlayLists from './components/sidebar-components/PlayLists.js'
-import FeaturedPlaylist from './components/sidebar-components/FeaturedPlaylist.js'
-import FeaturedItem from './components/sidebar-components/FeaturedItem.js'
-import OtherPlaylist from './components/sidebar-components/OtherPlaylist.js'
-import InstallCTA from './components/sidebar-components/InstallCTA.js'
+
 import Footer from './components/footer-components/Footer.js'
-import CTAbanner from './components/footer-components/CTAbanner'
-import Player from './components/footer-components/Player'
-import Featured from './components/featured-components/Featured.js'
 import Loading from './components/featured-components/Loading.js'
 
-
 import getHashParams from './utilities/getHashParams'
-import reqWithToken from './utilities/reqWithToken'
 import { UserContext, LoginContext, TokenContext, MessageContext, PlayContext } from './utilities/context'
 import HomePage from './components/pages-components/HomePage.js';
 
