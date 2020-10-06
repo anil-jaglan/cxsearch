@@ -6,24 +6,25 @@ import Grid from '@material-ui/core/Grid';
 import getRequest from '../../utilities/getRequest'
 
 import ProductCard from '../featured-components/ProductCard'
-import FacetAccordion from '../featured-components/FacetAccordion'
 import Facetbar from '../sidebar-components/Facetbar'
 
 export default function SearchPage({ query }) {
+
     const source = axios.CancelToken.source()
     const [result, setResult] = useState([])
     const [facetResult, setFacetResult] = useState([])
-    const [facetTitle] = useState(['Price', 'Category', 'Brand'])
     const [formatedQuery, setformatedQuery] = useState('')
+    const [filters, setFilters] = useState('')
 
     useEffect(() => {
         const formatedQuery = query.toLowerCase().split().join('+')
         setformatedQuery(formatedQuery)
+        setFilters('')
     }, [query])
 
 
     useEffect(() => {
-        const request = getRequest(`/search?q=${formatedQuery}&page=0&size=24`, source)
+        const request = getRequest(`/v2/search?q=${formatedQuery}&page=0&size=24${filters}`, source)
         request()
             .then((data) => {
                 setResult(data.data.content)
@@ -32,14 +33,25 @@ export default function SearchPage({ query }) {
             .catch((error) => console.log(error))
 
         return () => source.cancel()
-    }, [formatedQuery])
+    }, [formatedQuery, filters])
+
+    const handleFilters = (data) => {
+        const ftr = Object.keys(data).map((key, i) => {
+            if(key==='price') {
+                return `&facet.${key}.from=${data[key][0]}&facet.${key}.to=${data[key][1]}`
+            } else{
+                return data[key].map(val=> `&facet.${key}=${val}`).join('')
+            }
+        }).join('')
+        setFilters(ftr)
+    }
 
 
     return (
         <Grid container spacing={0} style={{ marginTop: '20px' }}>
             <Grid item xs={12} sm={3}>
-                <div style={{'padding' : '0px 10px'}}>
-                <Facetbar facetResult={facetResult}/>
+                <div style={{ 'padding': '0px 10px' }}>
+                    <Facetbar fresh={false} facetResult={facetResult} onFilterChange={handleFilters} />
                 </div>
             </Grid>
             <Grid item xs={12} sm={9}>

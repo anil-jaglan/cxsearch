@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function FacetAccordion({ title, content, expanded }) {
+export default function FacetAccordion({ fresh, title, content, expanded, handleFilterChange }) {
     const classes = useStyles();
     const [result, setResult] = useState([])
+    const [selected, setSelected] = useState([])
     const [expand, setExpand] = useState(true)
 
 
@@ -40,8 +41,27 @@ export default function FacetAccordion({ title, content, expanded }) {
         setExpand(expanded)
     }, [content, expanded])
 
+    useEffect(() => {
+        if(fresh)
+            setSelected([])
+    }, [fresh])
+
     const handleChange = (e) => {
         setExpand(!expand);
+    }
+    const handleCheck = (data) => {
+        let selection = []
+        if(data.checked) {
+            selected.push(data.label)
+            selection = selected
+        } else {
+            selection = selected.filter(e => e != data.label);
+            setSelected(selection)
+        }
+        handleFilterChange({title: title, values: selection})
+    }
+    const onSliderChange = (data) => {
+        handleFilterChange({title: title, values: data})
     }
 
     return (
@@ -58,14 +78,14 @@ export default function FacetAccordion({ title, content, expanded }) {
                     <AccordionDetails>
                         {
                             title === 'Price' ? 
-                            <CustomizedSlider data={result} />
+                            <CustomizedSlider data={result} onSliderChange={onSliderChange} />
                             :
                         <FormGroup>
                             {
                                 result
                                     ?
                                     result.map(c =>
-                                        <FacetCheckbox key={c.value} field={c} checked={false} />
+                                        <FacetCheckbox key={c.value} field={c} checked={false} onChange={handleCheck} />
                                     )
                                     : null
                             }

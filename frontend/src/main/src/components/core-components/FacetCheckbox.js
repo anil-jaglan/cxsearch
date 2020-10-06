@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function FacetCheckbox({ field, checked }) {
+export default function FacetCheckbox({ field, checked, onChange }) {
     const classes = useStyles();
 
     const [check, setCheck] = React.useState(false);
@@ -29,8 +29,10 @@ export default function FacetCheckbox({ field, checked }) {
         setCheck(checked)
     }, [checked])
 
-    const handleChange = (e) => {
-        setCheck(!check)
+    const handleChange = (e, value) => {
+        const v = !check
+        setCheck(v)
+        onChange({label: value, checked: v})
     }
 
     return (
@@ -38,7 +40,7 @@ export default function FacetCheckbox({ field, checked }) {
         <div style={{display: 'flex', flexDirection: 'row'}}>
         <FormControlLabel
             key={field.value}
-            control={<Checkbox onChange={handleChange} name={field.value} checked={check} onChange={handleChange} />}
+            control={<Checkbox onChange={handleChange} name={field.value} checked={check} onChange={(e) => handleChange(e, field.value)} />}
             label={field.value}
             color="primary"
             style={{ textTransform: "capitalize" }}

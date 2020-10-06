@@ -25,12 +25,13 @@ public interface ProductRepository extends SolrCrudRepository<Product, Long> {
     // SECTION_TITLE_FIELD_NAME }, defaultOperator = Operator.AND)
     // HighlightPage<Product> findByNameIn(Collection<String> names, Pageable page);
 
-    @Query(value="*:*", requestHandler="/search")
-    @Facet(fields = { PRICE_FIELD_NAME, SECTION_TITLE_FIELD_NAME, MANUFACTURER_FIELD_NAME })
+    @Query(requestHandler="/search")
+    //@Facet(fields = { PRICE_FIELD_NAME, SECTION_TITLE_FIELD_NAME, MANUFACTURER_FIELD_NAME })
+    @Facet(fields = { PRICE_FIELD_NAME, "{!ex="+SECTION_TITLE_FIELD_NAME+"}"+SECTION_TITLE_FIELD_NAME, "{!ex="+MANUFACTURER_FIELD_NAME+"}"+MANUFACTURER_FIELD_NAME})
     FacetPage<Product> findAll(Pageable page);
     
     @Query(requestHandler="/search")
-    @Facet(fields = { PRICE_FIELD_NAME, SECTION_TITLE_FIELD_NAME, MANUFACTURER_FIELD_NAME })
+    @Facet(fields = { PRICE_FIELD_NAME, "{!ex="+SECTION_TITLE_FIELD_NAME+"}"+SECTION_TITLE_FIELD_NAME, "{!ex="+MANUFACTURER_FIELD_NAME+"}"+MANUFACTURER_FIELD_NAME})
     FacetPage<Product> findByNameIn(Collection<String> names, Pageable page);
     
     @Query(requestHandler="/suggest")

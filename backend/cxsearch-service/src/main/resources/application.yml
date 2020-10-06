@@ -8,3 +8,8 @@ solr:
   
 springdoc:
   api-docs.path: /api-docs
+  
+  
+logging:
+  level:
+    org.springframework.data.solr.core.SolrTemplate: DEBUG

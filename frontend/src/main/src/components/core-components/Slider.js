@@ -70,7 +70,7 @@ function CxThumbComponent(props) {
     );
 }
 
-export default function CustomizedSlider({ data }) {
+export default function CustomizedSlider({ data, onSliderChange }) {
     const classes = useStyles()
     const [min, setMin] = React.useState(0)
     const [max, setMax] = React.useState(100)
@@ -108,6 +108,10 @@ export default function CustomizedSlider({ data }) {
 
     const handleBlur = (type) => {
         
+    }
+
+    const handleButtonClick = (e) => {
+        onSliderChange(value)
     }
     return (
         <div className={classes.root}>
@@ -154,7 +158,7 @@ export default function CustomizedSlider({ data }) {
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>,
                             }}
                         />
-                        <Button className={classes.button} size="small" variant="contained" color="secondary">GO</Button>
+                        <Button className={classes.button} size="small" variant="contained" color="secondary" onClick={handleButtonClick}>GO</Button>
                     </form>
                 </Grid>
             </Grid>

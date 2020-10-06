@@ -56,7 +56,7 @@ export default function AutoCompoleteBar({ setQuery, resetQuery }) {
             return undefined
         }
 
-        const request = getRequest(`/autocomplete?term=${term}&page=0&size=50`, source)
+        const request = getRequest(`/v1/autocomplete?term=${term}&page=0&size=50`, source)
         request()
             .then((data) => {
                 if (active) {
