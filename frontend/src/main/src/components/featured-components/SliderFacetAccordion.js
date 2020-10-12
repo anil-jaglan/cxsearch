@@ -9,7 +9,6 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import FacetCheckbox from '../core-components/FacetCheckbox'
 import CustomizedSlider from '../core-components/Slider';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,37 +28,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function FacetAccordion({ fresh, title, content, expanded, handleFilterChange }) {
-    const classes = useStyles();
-    const [result, setResult] = useState([])
-    const [selected, setSelected] = useState([])
+export default function SliderFacetAccordion({ title, facetStats, expanded, handleFilterChange }) {
+    const classes = useStyles()
     const [expand, setExpand] = useState(true)
-
+    const [stats, setStats] = useState({})
 
     useEffect(() => {
-        setResult(content)
         setExpand(expanded)
-    }, [content, expanded])
-
-    useEffect(() => {
-        if(fresh)
-            setSelected([])
-    }, [fresh])
+        setStats(facetStats)
+    }, [expanded, facetStats])
 
     const handleChange = (e) => {
         setExpand(!expand);
     }
-    const handleCheck = (data) => {
-        let selection = []
-        if(data.checked) {
-            selected.push(data.label)
-            selection = selected
-        } else {
-            selection = selected.filter(e => e != data.label);
-            setSelected(selection)
-        }
-        handleFilterChange({title: title, values: selection})
-    }
+    
     const onSliderChange = (data) => {
         handleFilterChange({title: title, values: data})
     }
@@ -75,25 +57,10 @@ export default function FacetAccordion({ fresh, title, content, expanded, handle
                     >
                     <Typography className={classes.heading}>{title}</Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
-                        {
-                            title === 'Price' ? 
-                            <CustomizedSlider data={result} onSliderChange={onSliderChange} />
-                            :
-                        <FormGroup>
-                            {
-                                result
-                                    ?
-                                    result.map(c =>
-                                        <FacetCheckbox key={c.value} field={c} checked={false} onChange={handleCheck} />
-                                    )
-                                    : null
-                            }
-                        </FormGroup>
-                        }
+                    <AccordionDetails>                        
+                        <CustomizedSlider stats={stats && stats.Current_Price} onSliderChange={onSliderChange} />                            
                     </AccordionDetails>
                 </Accordion>
-
             </div>
         </Grid>
     )

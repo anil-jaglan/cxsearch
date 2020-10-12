@@ -70,7 +70,7 @@ function CxThumbComponent(props) {
     );
 }
 
-export default function CustomizedSlider({ data, onSliderChange }) {
+export default function CustomizedSlider({ stats, onSliderChange }) {
     const classes = useStyles()
     const [min, setMin] = React.useState(0)
     const [max, setMax] = React.useState(100)
@@ -78,14 +78,15 @@ export default function CustomizedSlider({ data, onSliderChange }) {
     const [value, setValue] = React.useState([0, 100])
 
     useEffect(() => {
-        const valArr = data.map((c) => parseInt(Number(c.value)))
-        const mn = Math.min.apply(null, valArr)
-        const mx = Math.max.apply(null, valArr)
-        setMin(mn)
-        setMax(mx)
-        setlimit([mn, mx])
-        setValue([0, mx])
-    }, [data])
+        if(stats) {
+            const mn = parseInt(stats.min)
+            const mx = parseInt(stats.max)
+            setMin(mn)
+            setMax(mx)
+            setlimit([mn, mx])
+            setValue([mn, mx])
+        }
+    }, [stats])
 
     const handleChange = (event, newValue) => {
         updateValue(newValue)
@@ -136,8 +137,8 @@ export default function CustomizedSlider({ data, onSliderChange }) {
                             onChange={(event) => handleInputChange('min', event)}
                             onBlur={() => handleBlur('min')}
                             InputProps={{
-                                min: limit[0],
-                                max: limit[1],
+                                min: min,
+                                max: max,
                                 type: 'number',
                                 'aria-labelledby': "min-input",
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>,
@@ -151,8 +152,8 @@ export default function CustomizedSlider({ data, onSliderChange }) {
                             onChange={(event) => handleInputChange('max', event)}
                             onBlur={() => handleBlur('max')}
                             InputProps={{
-                                min: limit[0],
-                                max: limit[1],
+                                min: min,
+                                max: max,
                                 type: 'number',
                                 'aria-labelledby': "max-input",
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>,

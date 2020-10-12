@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Icon from '../icons'
-import SearchIcon from '@material-ui/icons/Search';
+
 import { makeStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button'
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function AutoCompoleteBar({ setQuery, resetQuery }) {
+export default function AutoCompleteBar({ setQuery, resetQuery }) {
     const classes = useStyles()
 
     const [term, setTerm] = useState('')
@@ -92,62 +92,68 @@ export default function AutoCompoleteBar({ setQuery, resetQuery }) {
         if (q !== '')
             setQuery(q);
     }
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        setQuery(term)
+    }
 
     return (
         <>
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-            >
-                <Grid item xs={6}>
-                    <div className="SearchContainer">
-                        <div className='SearchBar'>
-                            <Autocomplete
-                                id="search-box"
-                                open={open}
-                                onOpen={() => {
-                                    setOpen(true)
-                                }}
-                                onClose={() => {
-                                    setOpen(false)
-                                }}
-                                freeSolo
-                                disableClearable
-                                getOptionSelected={(option, value) => option === value}
-                                getOptionLabel={(option) => option}
-                                options={options}
-                                loading={loading}
-                                value={term}
-                                onChange={(event, value) => {
-                                    setValue(value)
-                                }}
-                                onInputChange={(event, newInputValue) => {
-                                    setTerm(newInputValue)
-                                }}
-                                renderInput={(params) => (                                    
-                                    <TextField
-                                        {...params}
-                                        placeholder="Search"
-                                        variant="outlined"
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                                <React.Fragment>
-                                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                                                    {params.InputProps.endAdornment}
-                                                </React.Fragment>
-                                            ),
-                                        }}
-                                    />
-                                )}
-                            />
+            <form onSubmit={handleSubmit} style={{width: '100%'}}>
+                <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item xs={6}>
+                        <div className="SearchContainer">
+                            <div className='SearchBar'>
+                                <Autocomplete
+                                    id="search-box"
+                                    open={open}
+                                    onOpen={() => {
+                                        setOpen(true)
+                                    }}
+                                    onClose={() => {
+                                        setOpen(false)
+                                    }}
+                                    freeSolo
+                                    disableClearable
+                                    getOptionSelected={(option, value) => option === value}
+                                    getOptionLabel={(option) => option}
+                                    options={options}
+                                    loading={loading}
+                                    value={term}
+                                    onChange={(event, value) => {
+                                        setValue(value)
+                                    }}
+                                    onInputChange={(event, newInputValue) => {
+                                        setTerm(newInputValue)
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            placeholder="Search"
+                                            variant="outlined"
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <React.Fragment>
+                                                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                                        {params.InputProps.endAdornment}
+                                                    </React.Fragment>
+                                                ),
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </div>
+                            <Button variant="contained" color="secondary" onClick={() => onSearchClick(term)} style={{ marginLeft: '10px' }}>Search</Button>
                         </div>
-                        <Button variant="contained" color="secondary" onClick={() => onSearchClick(term)} style={{ marginLeft: '10px' }}>Search</Button>
-                    </div>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </form>
         </>
     )
 }

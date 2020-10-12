@@ -7,5 +7,6 @@ public class SearchCriteria {
 
     private String q;
     private FacetDTO facet;
+    private SortCriteria sort;
 
 }

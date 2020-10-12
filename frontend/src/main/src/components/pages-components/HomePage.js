@@ -8,7 +8,7 @@ import PageContent from '../featured-components/PageContent'
 import SearchBar from '../featured-components/SearchBar'
 
 import { MessageContext } from '../../utilities/context'
-import AutoCompoleteBar from '../featured-components/AutoCompleteBar';
+import AutoCompleteBar from '../featured-components/AutoCompleteBar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,7 +44,7 @@ export default function HomePage(props) {
                     <Grid item xs={12}>
                         <Headerbar>
                             {/* <SearchBar query={query} setQuery={setQuery} resetQuery={resetQuery} /> */}
-                            <AutoCompoleteBar setQuery={setQuery} resetQuery={resetQuery} />
+                            <AutoCompleteBar setQuery={setQuery} resetQuery={resetQuery} />
                         </Headerbar>
                     </Grid>
                     <Grid item xs={12}>
