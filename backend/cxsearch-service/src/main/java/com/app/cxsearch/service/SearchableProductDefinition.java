@@ -17,5 +17,6 @@ public interface SearchableProductDefinition {
     String SECTION_ID_FIELD_NAME = "Section_Id";
     String SECTION_TITLE_FIELD_NAME = "Section_Title";
     String KEYWORD_SUGGEST_FIELD_NAME = "Keyword_Suggest";
+    String SCORE_FIELD_NAME = "score";
 
 }

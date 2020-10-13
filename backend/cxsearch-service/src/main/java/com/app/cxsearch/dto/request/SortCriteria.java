@@ -6,6 +6,6 @@ import lombok.Data;
 public class SortCriteria {
 
     private String order;
-    private String[] field;
+    private String field;
 
 }

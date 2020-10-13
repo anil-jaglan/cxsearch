@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FacetCheckbox({ field, checked, onChange }) {
     const classes = useStyles();
 
-    const [check, setCheck] = React.useState(false);
+    const [check, setCheck] = React.useState(null);
 
     useEffect(() => {
         setCheck(checked)

@@ -72,15 +72,17 @@ function CxThumbComponent(props) {
 
 export default function CustomizedSlider({ stats, onSliderChange }) {
     const classes = useStyles()
-    const [min, setMin] = React.useState(0)
+    const [min, setMin] = React.useState(1)
     const [max, setMax] = React.useState(100)
-    const [limit, setlimit] = React.useState([0, 100])
-    const [value, setValue] = React.useState([0, 100])
+    const [limit, setlimit] = React.useState([1, 100])
+    const [value, setValue] = React.useState([1, 100])
 
     useEffect(() => {
         if(stats) {
-            const mn = parseInt(stats.min)
-            const mx = parseInt(stats.max)
+            let mn = Math.round(stats.min)
+            let mx = Math.round(stats.max)
+            mn = isNaN(mn) ? 1 : mn
+            mx = isNaN(mx) ? 100 : mx
             setMin(mn)
             setMax(mx)
             setlimit([mn, mx])

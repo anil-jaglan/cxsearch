@@ -3,6 +3,7 @@ package com.app.cxsearch.service;
 import static com.app.cxsearch.service.SearchableProductDefinition.COLLECTION;
 import static com.app.cxsearch.service.SearchableProductDefinition.MANUFACTURER_FIELD_NAME;
 import static com.app.cxsearch.service.SearchableProductDefinition.PRICE_FIELD_NAME;
+import static com.app.cxsearch.service.SearchableProductDefinition.SCORE_FIELD_NAME;
 import static com.app.cxsearch.service.SearchableProductDefinition.SECTION_TITLE_FIELD_NAME;
 
 import java.util.Objects;
@@ -49,6 +50,8 @@ public class SearchServiceImpl implements SearchService {
         facetQuery.setPageRequest(pageable);
         if(Objects.nonNull(search.getSort())) {
             facetQuery.addSort(buildSorts(search));
+        } else {
+            facetQuery.addSort(Sort.by(Order.desc(SCORE_FIELD_NAME)));
         }
 
         return solrTemplate.queryForFacetPage(COLLECTION, facetQuery, Product.class);
@@ -74,9 +77,9 @@ public class SearchServiceImpl implements SearchService {
     private Sort buildSorts(SearchCriteria search) {
         Order order = null;
         if(SortEnum.isAsc(search.getSort().getOrder())) {
-            order = Order.asc(PRICE_FIELD_NAME);
+            order = Order.asc(search.getSort().getField());
         } else {
-            order = Order.desc(PRICE_FIELD_NAME);
+            order = Order.desc(search.getSort().getField());
         }
         return Sort.by(order);
     }

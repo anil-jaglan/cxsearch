@@ -36,14 +36,10 @@ export default function HomePage(props) {
 
     return (
         <>
-            {/* <Sidebar>
-                <Logo />
-            </Sidebar> */}
             <div className={classes.root}>
                 <Grid container direction="row" justify="center" style={{ marginTop: '12px', width: 'calc(100% + 0px)', padding: '0 6px' }}>
                     <Grid item xs={12}>
                         <Headerbar>
-                            {/* <SearchBar query={query} setQuery={setQuery} resetQuery={resetQuery} /> */}
                             <AutoCompleteBar setQuery={setQuery} resetQuery={resetQuery} />
                         </Headerbar>
                     </Grid>

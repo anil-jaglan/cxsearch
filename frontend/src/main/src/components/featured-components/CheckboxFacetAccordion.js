@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function CheckboxFacetAccordion({ fresh, title, content, expanded, handleFilterChange }) {
+export default function CheckboxFacetAccordion({ reset, title, content, expanded, handleFilterChange }) {
     const classes = useStyles();
     const [result, setResult] = useState([])
     const [selected, setSelected] = useState([])
@@ -41,9 +41,9 @@ export default function CheckboxFacetAccordion({ fresh, title, content, expanded
     }, [content, expanded])
 
     useEffect(() => {
-        if(fresh)
+        if(reset)
             setSelected([])
-    }, [fresh])
+    }, [reset])
 
     const handleChange = (e) => {
         setExpand(!expand);
