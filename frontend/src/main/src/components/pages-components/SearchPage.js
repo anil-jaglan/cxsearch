@@ -32,6 +32,7 @@ export default function SearchPage({ query }) {
     const [filters, setFilters] = useState('')
     const [sort, setSort] = useState(['score', 'desc'])
     const [open, setOpen] = useState(false)
+    const [reset, setReset] = useState(true)
     const [page, setPage] = useState(0)
     const size = 24
 
@@ -49,6 +50,7 @@ export default function SearchPage({ query }) {
         request()
             .then((data) => {
                 setOpen(false)
+                setReset(false)
                 setResult(data.data)
             })
             .catch((error) => console.log(error))
@@ -65,9 +67,11 @@ export default function SearchPage({ query }) {
             }
         }).join('')
         setFilters(fltr)
+        setReset(true)
     }
 
     const handleSorting = (order) => {
+        setPage(0)
         setSort(order.split(','))
     }
 
@@ -90,7 +94,7 @@ export default function SearchPage({ query }) {
                         }
                     </Grid>
                     <Grid item xs={12} sm={6} style={{ cursor: 'pointer' }}>
-                        <SortingPanel reset={filters === ''} onChange={handleSorting} />
+                        <SortingPanel reset={reset} onChange={handleSorting} />
                         <ViewListIcon fontSize="large" />
                         <ViewModuleIcon fontSize="large" color="secondary" />
                     </Grid>

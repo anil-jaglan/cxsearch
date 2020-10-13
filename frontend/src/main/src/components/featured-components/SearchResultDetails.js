@@ -14,6 +14,6 @@ export default function SearchResultDetails({query, result}) {
     },[result])
 
     return (
-        <Typography>Displaying {from} to {to} of {result.totalElements} results for {query} </Typography>
+        <Typography>Displaying {from} to {to} of {result.totalElements} results for <strong style={{color: "#D71440"}}>{query}</strong> </Typography>
     )
 }
