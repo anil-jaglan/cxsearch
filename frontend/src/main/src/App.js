@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Axios from 'axios';
-
+import { SnackbarProvider } from 'notistack';
 
 import Footer from './components/footer-components/Footer.js'
 import Loading from './components/featured-components/Loading.js'
@@ -46,23 +46,20 @@ function App() {
   }
 
 
-  const playerRef = useRef(null)
-  const updatePlayer = () => {
-    playerRef.current.updateState()
-  }
-
   return (
     <div className="App">
       {loading ?
         <Loading type='app' /> :
         <MessageContext.Provider value={setStatusMessage}>
           <LoginContext.Provider
-            value={loggedIn}>            
-              <TokenContext.Provider value={token}>
-                <UserContext.Provider value={userInfo}>                  
-                  <HomePage loggedIn={loggedIn} message={message} status={status}/>
-                </UserContext.Provider>
-              </TokenContext.Provider>
+            value={loggedIn}>
+            <TokenContext.Provider value={token}>
+              <UserContext.Provider value={userInfo}>
+                <SnackbarProvider maxSnack={3} anchorOrigin={{vertical: 'bottom',horizontal: 'center',}} preventDuplicate>
+                  <HomePage loggedIn={loggedIn} message={message} status={status} />
+                </SnackbarProvider>
+              </UserContext.Provider>
+            </TokenContext.Provider>
             <Footer />
           </LoginContext.Provider>
         </MessageContext.Provider>

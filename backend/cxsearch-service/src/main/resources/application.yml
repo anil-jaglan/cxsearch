@@ -5,6 +5,8 @@ spring:
 # SOLR
 solr:
   host: http://localhost:8983/solr
+  facet:
+    limit: 1000
   
 springdoc:
   api-docs.path: /api-docs

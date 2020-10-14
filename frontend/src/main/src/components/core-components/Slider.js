@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
+import {CURRENCY_SIGN as currency, PRICE_SLIDER_MIN_VALUE as MIN, PRICE_SLIDER_MAX_VALUE as MAX } from '../../utilities/constants'
+
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
+import { Grid, Button, TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 const useStyles = makeStyles((theme) => ({
@@ -70,25 +72,27 @@ function CxThumbComponent(props) {
     );
 }
 
-export default function CustomizedSlider({ stats, onSliderChange }) {
+export default function CustomizedSlider({ stats, reset, onSliderChange }) {
     const classes = useStyles()
-    const [min, setMin] = React.useState(1)
-    const [max, setMax] = React.useState(100)
-    const [limit, setlimit] = React.useState([1, 100])
-    const [value, setValue] = React.useState([1, 100])
+    const [min, setMin] = React.useState(MIN)
+    const [max, setMax] = React.useState(MAX)
+    const [limit, setlimit] = React.useState([MIN, MAX])
+    const [value, setValue] = React.useState([MIN, MAX])
 
     useEffect(() => {
         if(stats) {
             let mn = Math.round(stats.min)
             let mx = Math.round(stats.max)
-            mn = isNaN(mn) ? 1 : mn
-            mx = isNaN(mx) ? 100 : mx
+            mn = isNaN(mn) ? MIN : mn
+            mx = isNaN(mx) ? MAX : mx
+            if(reset) {
+                setMax(mx)
+                setlimit([mn, mx])
+                setValue([mn, mx])
+            }
             setMin(mn)
-            setMax(mx)
-            setlimit([mn, mx])
-            setValue([mn, mx])
         }
-    }, [stats])
+    }, [stats, reset])
 
     const handleChange = (event, newValue) => {
         updateValue(newValue)
@@ -109,8 +113,9 @@ export default function CustomizedSlider({ stats, onSliderChange }) {
         }
     }
 
-    const handleBlur = (type) => {
-        
+    const handleChangeCommited = (event,value) => {
+        updateValue(value)
+        onSliderChange(value)
     }
 
     const handleButtonClick = (e) => {
@@ -119,17 +124,19 @@ export default function CustomizedSlider({ stats, onSliderChange }) {
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{padding: '0 3px 0 30px'}}>
                     <CxSlider
                         ThumbComponent={CxThumbComponent}
                         getAriaLabel={(index) => (index === 0 ? 'Minimum price' : 'Maximum price')}
                         value={value}
                         max={limit[1]}
                         valueLabelDisplay="auto"
+                        valueLabelFormat={(x)=> currency+x}
                         onChange={handleChange}
+                        onChangeCommitted={handleChangeCommited}
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{padding: '0 0 0 13px'}}>
                     <form className={classes.form} noValidate autoComplete="off">
                         <TextField
                             label="Min"
@@ -137,13 +144,12 @@ export default function CustomizedSlider({ stats, onSliderChange }) {
                             value={min}
                             margin="dense"
                             onChange={(event) => handleInputChange('min', event)}
-                            onBlur={() => handleBlur('min')}
                             InputProps={{
                                 min: min,
                                 max: max,
                                 type: 'number',
                                 'aria-labelledby': "min-input",
-                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                            startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
                             }}
                         />
                         <TextField
@@ -152,13 +158,12 @@ export default function CustomizedSlider({ stats, onSliderChange }) {
                             value={max}
                             margin="dense"
                             onChange={(event) => handleInputChange('max', event)}
-                            onBlur={() => handleBlur('max')}
                             InputProps={{
                                 min: min,
                                 max: max,
                                 type: 'number',
                                 'aria-labelledby': "max-input",
-                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                            startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
                             }}
                         />
                         <Button className={classes.button} size="small" variant="contained" color="secondary" onClick={handleButtonClick}>GO</Button>

@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,6 +33,9 @@ import com.app.cxsearch.model.Product;
 public class SearchServiceImpl implements SearchService {
 
     private static final String DEFALT_SEARCH = "*:*";
+    
+    @Value("${solr.facet.limit:1000}")
+    private int facetLimit;
 
     @Autowired
     private SolrTemplate solrTemplate;
@@ -88,6 +92,7 @@ public class SearchServiceImpl implements SearchService {
         FacetOptions facetOpts = new FacetOptions();
         facetOpts.addFacetOnField(facetField(SECTION_TITLE_FIELD_NAME));
         facetOpts.addFacetOnField(facetField(MANUFACTURER_FIELD_NAME));
+        facetOpts.setFacetLimit(facetLimit);
         return facetOpts;
     }
 

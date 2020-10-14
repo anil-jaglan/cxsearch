@@ -1,11 +1,12 @@
 import React from 'react'
+import { SOLR_SECTION_FIELD as SECTION, SOLR_BRAND_FIELD as BRAND, FACET_TITLES } from '../../utilities/constants'
 
 import CheckboxFacetAccordion from '../featured-components/CheckboxFacetAccordion'
 import SliderFacetAccordion from '../featured-components/SliderFacetAccordion'
 
 export default function Facetbar({ reset, result, onFilterChange }) {
 
-    const [facetTitle] = React.useState(['Price', 'Category', 'Brand'])
+    const [facetTitle] = React.useState(FACET_TITLES)
     const [facetResult, setFacetResult] = React.useState([])
     const [facetStats, setFacetStats] = React.useState({})
     const [selection, setSelection] = React.useState({})
@@ -13,20 +14,20 @@ export default function Facetbar({ reset, result, onFilterChange }) {
     React.useEffect(() => {
         if (result && result.facetFields) {
             const r = []
-            result.facetFields.map((v,i) => {
-                if (v.name === 'Section_Title')
+            result.facetFields.map((v, i) => {
+                if (v.name === SECTION)
                     r[0] = result.facetResultPages[i]
-                else
+                else if (v.name === BRAND)
                     r[1] = result.facetResultPages[i]
                 return v
             })
             setFacetResult(r)
-        }        
+        }
         setFacetStats(result.fieldStatsResults)
     }, [result])
 
-    React.useEffect(()=>{
-        if(reset)
+    React.useEffect(() => {
+        if (reset)
             setSelection({})
     }, [reset])
 
@@ -45,8 +46,21 @@ export default function Facetbar({ reset, result, onFilterChange }) {
 
     return (
         <div style={{ 'padding': '0px 10px' }}>
-            <SliderFacetAccordion expanded={true} title={facetTitle[0]} facetStats={facetStats} handleFilterChange={handleFilterChange} />
-            {facetResult.length > 0 ? facetResult.map((page, i) => <CheckboxFacetAccordion key={i} fresh={reset} expanded={true} title={facetTitle[i+1]} content={page.content} handleFilterChange={handleFilterChange} />) : null}
+            <SliderFacetAccordion expanded={true} reset={reset} title={facetTitle[0]} facetStats={facetStats} handleFilterChange={handleFilterChange} />
+            {
+                facetResult.length > 0
+                    ?
+                    facetResult.map((page, i) =>
+                        <CheckboxFacetAccordion
+                            key={i}
+                            reset={reset}
+                            expanded={true}
+                            title={facetTitle[i + 1]}
+                            content={page.content}
+                            handleFilterChange={handleFilterChange} />
+                    )
+                    :
+                    null}
         </div>
     )
 }
