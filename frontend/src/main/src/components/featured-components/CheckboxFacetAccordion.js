@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FACET_TO_SHOW, SHOW_MORE_LABEL, SHOW_LESS_LABEL } from '../../utilities/constants'
 
-import { AccordionActions, Button, TextField, Typography } from '@material-ui/core';
+import { AccordionActions, Button, InputAdornment, TextField, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -11,6 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import FacetCheckbox from '../core-components/FacetCheckbox'
 import CustomAccordion from '../core-components/CustomAccordion';
+import { CancelRounded, ClearSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,15 +36,25 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflow: 'auto',
-        maxHeight: '380px',
         width: '100%',
         padding: '0 12px 0 0',
+    },
+    less: {
+        maxHeight: '380px',
+    },
+    more: {
+        maxHeight: '450px',
+    },
+    clear: {
+        cursor: 'pointer',
     },
 }));
 
 
 export default function CheckboxFacetAccordion({ reset, title, content, expanded, handleFilterChange }) {
     const classes = useStyles();
+    const [data, setData] = useState([])
+    const [search, setSearch] = useState('')
     const [result, setResult] = useState([])
     const [selected, setSelected] = useState([])
     const [expand, setExpand] = useState(true)
@@ -51,6 +62,7 @@ export default function CheckboxFacetAccordion({ reset, title, content, expanded
     const [rowCount, setRowCount] = useState(FACET_TO_SHOW)
 
     useEffect(() => {
+        setData(content)
         setExpand(expanded)
         setShowMore(content.length > FACET_TO_SHOW ? true : false)
         setRowCount(FACET_TO_SHOW)
@@ -63,8 +75,8 @@ export default function CheckboxFacetAccordion({ reset, title, content, expanded
     const sortResultBySelectedFacet = (facets, sel) => {
         const _checked = []
         const _unchecked = []
-        facets.forEach(f=>{
-            if(sel.includes(f.value)) {
+        facets.forEach(f => {
+            if (sel.includes(f.value)) {
                 _checked.push(f)
             } else {
                 _unchecked.push(f)
@@ -101,8 +113,15 @@ export default function CheckboxFacetAccordion({ reset, title, content, expanded
         handleFilterChange({ title: title, values: selection })
     }
 
-    const handleSearchInput = (event) => {
-        console.log(event.target.value)
+    const handleSearchInput = (input) => {  
+        setSearch(input)      
+        if (input !== '')
+            setResult(data.filter(d => d.value.includes(input)))
+        else {
+            setSearch('')
+            setResult(sortResultBySelectedFacet(data, selected))
+        }
+        setShowMore(result.length > FACET_TO_SHOW ? true : false)
     }
 
 
@@ -118,14 +137,28 @@ export default function CheckboxFacetAccordion({ reset, title, content, expanded
                         <Typography className={classes.heading}>{title}</Typography>
                     </AccordionSummary>
                     <AccordionDetails className={classes.details}>
-                        <TextField fullWidth id={title} size="small" placeholder="Search..." variant="outlined" onChange={handleSearchInput} />
-                        <div className={classes.checkboxList}>
+                        <TextField
+                            fullWidth id={title}
+                            size="small"
+                            placeholder="Search..."
+                            variant="outlined"
+                            value={search}
+                            onChange={(event)=>handleSearchInput(event.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <ClearSharp className={classes.clear} onClick={()=>handleSearchInput('')}/>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <div className={classes.checkboxList + ' ' + (showMore ? classes.less : classes.more)}>
                             <FormGroup style={{ width: '100%' }}>
                                 {
                                     result
                                         ?
                                         result.slice(0, rowCount).map(c =>
-                                                <FacetCheckbox key={c.value} field={c} checked={selected.indexOf(c.value) > -1} onChange={handleCheck} />
+                                            <FacetCheckbox key={c.value} field={c} checked={selected.indexOf(c.value) > -1} onChange={handleCheck} />
 
                                         )
                                         : null

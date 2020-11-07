@@ -6,7 +6,7 @@ import Footer from './components/footer-components/Footer.js'
 import Loading from './components/featured-components/Loading.js'
 
 import getHashParams from './utilities/getHashParams'
-import { UserContext, LoginContext, TokenContext, MessageContext, PlayContext } from './utilities/context'
+import { UserContext, LoginContext, TokenContext, MessageContext } from './utilities/context'
 import HomePage from './components/pages-components/HomePage.js';
 
 function App() {

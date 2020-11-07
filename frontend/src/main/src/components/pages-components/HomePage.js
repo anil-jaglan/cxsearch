@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid';
 
 import Headerbar from '../featured-components/Headerbar'
 import PageContent from '../featured-components/PageContent'
-import SearchBar from '../featured-components/SearchBar'
 
 import { MessageContext } from '../../utilities/context'
 import AutoCompleteBar from '../featured-components/AutoCompleteBar';

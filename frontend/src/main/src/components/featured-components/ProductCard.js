@@ -1,15 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { NavLink } from 'react-router-dom';
-
+import { CURRENCY_SIGN, IMG_WIDTH as iw, IMG_HEIGHT as ih } from '../../utilities/constants'
 
 const useStyles = makeStyles({
     root: {
@@ -26,60 +18,71 @@ const useStyles = makeStyles({
     },
 });
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, viewType }) {
     const classes = useStyles();
+    const [hovered, setHovered] = React.useState(false);
+    const toggleHover = () => setHovered(!hovered);
     const { name, id, image } = product
     return (
-        <Grid item lg={3}>
-            <Card className={classes.root}>
-                <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={image}
-                        title={name}
-                    />
-                    <CardContent>
-                        <div className="ArticleCat">
-                            {product.sectionTitle}
+        <>
+            {viewType === 'box' ?
+                <Grid item lg={3}>
+                    <div class="product" id={id}>
+                        <div className={`make3D ${hovered ? 'animate' : ''}`} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+                            <div class="product-front">
+                                <div class="shadow"></div>
+                                <img class="quick-view" src={`${image}/tr:w-${iw},h-${ih},cm-pad_resize`} alt="" />
+                                <div class="stats">
+                                    <div class="stats-container">
+                                        <span class="product_name quick-view">{name}-{product.supplierSku}</span>
+                                        <p>{product.desc}</p>
+                                        <span class="product_price">{CURRENCY_SIGN}{product.price}</span>
+                                    </div>
+                                    <div class="buttons">
+                                        <div class="quick-view-popup view_gallery quick-view">View</div>
+                                        <button class="add-to-cart">
+                                            <em>Add to Cart</em>
+                                            <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+                                                <path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11">
+                                                </path>
+                                            </svg>
+                                            <label>Added</label>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="ArticleTitle">
-                            {product.name} - {product.code}
+                    </div>
+                </Grid>
+                :
+                <div class="product large" >
+                    <div className={`info-large details ${hovered ? 'animate' : ''}`} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+                        <h2 class="quick-view">{name}-{product.supplierSku}</h2>
+                        <div class="desc">{product.desc}</div>
+                        <div class="price-big">{CURRENCY_SIGN}{product.price}</div>
+                        <div class="buttons">
+                            <div class="quick-view-popup quick-view">View</div>
+                            <button class="add-to-cart">
+                                <em>Add to Cart</em>
+                                <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+                                    <path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11">
+                                    </path>
+                                </svg>
+                                <label>Added</label>
+                            </button>
                         </div>
-                        <div className="ArticleDesc">
-                            {product.desc}
+                    </div>
+                    <div class="make3D">
+                        <div class="product-front">
+                            <div class="shadow">
+                            </div>
+                            <img class="quick-view" src={`${image}/tr:w-${iw},h-${ih},cm-pad_resize`} alt="" />
                         </div>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    <div className="ArticlePrice">${product.price}</div>
-                    <Typography>{' '}</Typography>
-                    <Button size="small" color="primary">Add to cart</Button>
-                </CardActions>
-            </Card>
-        </Grid>
+                    </div>
+                </div>
+            }
+        </>
+
     )
 }
 
-
-const titleStyle = {
-    fontSize: '24px',
-    padding: '16px',
-    lineHeight: '1.3em',
-    letterSpacing: '-.04em',
-    overflowWrap: 'break-word',
-    position: 'absolute',
-    zIndex: '1',
-    bottom: '0',
-    textAlign: 'left',
-    margin: 'auto',
-    hyphens: 'auto'
-}
-
-const overlayStyle = {
-    background: 'linear-gradient(0deg,rgba(0,0,0,0),rgba(0,0,0,.4))',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%'
-}

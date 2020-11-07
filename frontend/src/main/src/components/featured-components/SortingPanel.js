@@ -3,6 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
+    label: {
+        fontSize: '16px',
+        color: '#999',
+    },
     link: {
         fontSize: '16px',
         color: '#999',
@@ -20,16 +24,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function SortingPanel({reset, onChange }) {
+export default function SortingPanel({ reset, onChange }) {
     const classes = useStyles();
     const allFalse = [false, false, false]
     const [ac, setAc] = React.useState(allFalse)
 
     React.useState(() => {
-        console.log('Reset=>'+reset)
-        if(reset)
+        console.log('Reset=>', reset)
+        if (reset)
             setAc(allFalse)
-    },[reset])
+    }, [reset])
 
     const handleClose = (i, sortOrder) => {
         setAc(allFalse)
@@ -41,6 +45,7 @@ export default function SortingPanel({reset, onChange }) {
 
     return (
         <>
+            <span className={classes.label}>Sort By:</span>
             <Link className={classes.link + ' ' + (ac[0] ? classes.linkActive : '')} onClick={(e) => handleClose(0, 'score,desc')}>Popularity</Link>
             <Link className={`${classes.link}  ${(ac[1] ? classes.linkActive : '')}`} onClick={(e) => handleClose(1, 'Current_Price,asc')}>Price - Low to High</Link>
             <Link className={`${classes.link}  ${(ac[2] ? classes.linkActive : '')}`} onClick={(e) => handleClose(2, 'Current_Price,desc')}>Price - Hight to Low</Link>

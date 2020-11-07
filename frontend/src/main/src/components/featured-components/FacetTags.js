@@ -14,41 +14,41 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function FacetTags({data}) {
+export default function FacetTags({data, onTagDelete}) {
 
     const classes = useStyles()
     const [chips, setChips] = React.useState([])
 
     React.useEffect(()=>{
-        console.log(data)
-        const tags = Object.keys(data).map((key, i) => {
-            if (key === 'price') {
-                return `Price: [${CURRENCY_SIGN}${data[key][0]}-${CURRENCY_SIGN}${data[key][1]}]`
-            } else if(key == 'category') {
-                return "Categories: "
-            } else {
-                return `Brand: `
-            }
-        })
-        setChips(tags)
+        if(data) {
+            const tags = []
+            Object.keys(data).map((key) => {
+                if (key === 'price') {
+                    tags.push({type: key, key: key, label:`Price: [${CURRENCY_SIGN}${data[key][0]}-${CURRENCY_SIGN}${data[key][1]}]`})
+                } else if(key == 'category') {
+                    return data[key].map(val=>  tags.push({type: key, key: val, label: val}))
+                } else {
+                    return data[key].map(val=>  tags.push({type: key, key: val, label: val}))
+                }
+            })
+            setChips(tags)
+        }
     },[data])
 
-    const handleDelete = () => {
-        console.info('You clicked the delete icon.')
+    const handleDelete = (data) => {
+        setChips((chips)=> chips.filter(c=> c.key != data.key))
+        onTagDelete(data)
     }
 
-    const handleClick = () => {
-        console.info('You clicked the Chip.')
-    }
     return (
         <div className={classes.root}>
             {chips.map((t) => 
                 <Chip
-                key={t}
-                label={t}
-                onClick={handleClick}
+                key={t.key}
+                label={t.label}
+                onClick={()=>handleDelete(t)}
                 color="secondary"
-                onDelete={handleDelete}/>
+                onDelete={()=>handleDelete(t)}/>
             )
         }
         </div>

@@ -39,7 +39,7 @@ export default function FacetCheckbox({ field, checked, onChange }) {
         <>
             <div style={{ display: 'row', flexDirection: 'row' }}>
                 <Checkbox color="secondary" onChange={handleChange} name={value} checked={check} onChange={(e) => handleChange(e, value)} size="small" />
-                <FormLabel style={{ textTransform: "capitalize" }}>{value}</FormLabel>
+                <FormLabel style={{ textTransform: "capitalize", fontSize: '0.850rem' }}>{value}</FormLabel>
                 <span className={classes.counter}>{field.valueCount}</span>
             </div>
         </>

@@ -31,6 +31,7 @@ const CxSlider = withStyles({
         color: '#f50057',
         height: 3,
         padding: '13px 0',
+        width: '90%',
     },
     thumb: {
         height: 27,
@@ -89,8 +90,8 @@ export default function CustomizedSlider({ stats, reset, onSliderChange }) {
                 setMax(mx)
                 setlimit([mn, mx])
                 setValue([mn, mx])
+                setMin(mn)
             }
-            setMin(mn)
         }
     }, [stats, reset])
 

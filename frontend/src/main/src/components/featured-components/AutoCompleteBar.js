@@ -106,7 +106,7 @@ export default function AutoCompleteBar({ setQuery, resetQuery }) {
                     justify="center"
                     alignItems="center"
                 >
-                    <Grid item xs={6}>
+                    <Grid item sm={12} lg={6}>
                         <div className="SearchContainer">
                             <div className='SearchBar'>
                                 <Autocomplete
