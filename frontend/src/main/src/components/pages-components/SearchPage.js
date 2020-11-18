@@ -55,7 +55,7 @@ export default function SearchPage({ query }) {
     const [filters, setFilters] = useState({}) // {price: [0,100], category: ['hp color cartridge','hp black toner'], brand: ['epson', 'apple']}
     const [sort, setSort] = useState(DEFAULT_SORTING)
     const [loading, setLoading] = useState(false)
-    const [queryChanged, setQueryChanged] = useState(false)
+    const [queryChanged, setQueryChanged] = useState(true)
     const [page, setPage] = useState(0)
     const [viewType, setViewType] = useState('box')
     const variant = 'error'
@@ -67,6 +67,7 @@ export default function SearchPage({ query }) {
         setFilters({})
         setPage(0)
         setQueryChanged(true)
+        setTimeout(() => setQueryChanged(false), 5000)
     }, [query])
 
     useEffect(() => {
@@ -80,7 +81,6 @@ export default function SearchPage({ query }) {
                 } else {
                     enqueueSnackbar('Error while fetching data', { variant })
                 }
-                setQueryChanged(false)
             })
             .catch((error) => enqueueSnackbar(error, { variant }))
 
@@ -127,22 +127,22 @@ export default function SearchPage({ query }) {
             <Grid item xs={12} className={classes.tagClouds}>
                 <FacetTags data={filters} onTagDelete={handleTagDelete}/>
             </Grid>
-            <MediaQuery minDeviceWidth={1224}>
+            <MediaQuery minWidth={1224}>
                 <Grid item xs={12} sm={4} md={4} lg={3}>
                     <div style={{ 'padding': '0px 10px' }}>
                         <Facetbar reset={fq === ''} result={result} onFilterChange={handleFilters} />
                     </div>
                 </Grid>
             </MediaQuery>
-            <Grid item xs={12} sm={8} md={8} lg={9} className={classes.resultArea}>
-                <Grid container style={{ marginBottom: '10px' }} justify="flex-end">
-                    <Grid item xs={12} sm={12} lg={6} className={classes.resultDetails}>
+            <Grid item xs={12} sm={12} md={12} lg={9} className={classes.resultArea}>
+                <Grid container style={{ marginBottom: '10px' }} justify="flex-end" direction="row" alignItems="flex-end">
+                    <Grid item xs={6} sm={6} lg={6} className={classes.resultDetails}>
                         <SearchResultDetails query={query} result={result}/>
                     </Grid>
-                    <Grid item xs={12} sm={12} lg={6}>
+                    <Grid item xs={6} sm={6} lg={6}>                        
                         <SortingPanel reset={queryChanged} onChange={handleSorting} />
-                        <ViewModuleIcon className={classes.icon} fontSize="large" color={viewType==='box'? 'secondary' : ''} onClick={() => setViewType('box')} />
-                        <ViewListIcon  className={classes.icon} fontSize="large" color={viewType==='list'? 'secondary' : ''} onClick={() => setViewType('list')} />
+                        <ViewModuleIcon className={classes.icon} fontSize="large" color={viewType==='box'? 'secondary' : 'inherit'} onClick={() => setViewType('box')} />
+                        <ViewListIcon  className={classes.icon} fontSize="large" color={viewType==='list'? 'secondary' : 'inherit'} onClick={() => setViewType('list')} />
                     </Grid>
                 </Grid>
                 <Grid container spacing={3} style={{ width: '100%' }}>

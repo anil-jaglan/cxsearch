@@ -506,7 +506,7 @@ div.large .product-back{
 	position:absolute;
     width: 100%;
 	opacity:1;
-	bottom: 4px;
+	bottom: 0px;
 	padding: 0px;
 	-webkit-transition: all 200ms ease-out; 
        -moz-transition: all 200ms ease-out; 
@@ -731,7 +731,7 @@ div.large .make3D{
     font-weight: bold;
 }
 .product.large:hover{	
-	box-shadow:0px 5px 31px -1px rgba(0, 0, 0, 0.15);	
+    box-shadow:0px 5px 31px -1px rgba(0, 0, 0, 0.15);
 }
 
 .product .info-large .quick-view-popup {	
